@@ -12,12 +12,38 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MasterDao extends DBconnect {
-    Connection con;
+    Connection con=null;
     PreparedStatement ps;
-    ResultSet rs;
+    ResultSet rs= null;
+        ResultSet rs1=null;
       PreparedStatement ps1;
       PreparedStatement ps2;
- 
+      Statement statement= null;
+      
+  public void forgot(Register r){
+        String email= r.getEmail();
+        String password=r.getPassword();
+        try{
+        con=createConnection();
+        statement = con.createStatement();
+        rs = statement.executeQuery("select email from public.customer where email='"+email+"' ");
+        if(rs.next()==true)
+        {
+          ps=con.prepareStatement("Update public.customer set password='"+password+"' where email='"+email+"'");
+         int i= ps.executeUpdate();
+          
+          if (i != 0)  //Just to ensure data has been inserted into the database
+         System.out.println("updated");
+       }
+        
+        
+        
+    }   catch (SQLException ex) {
+            Logger.getLogger(MasterDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+  }
     public List getAllDonaters(){
         ArrayList<Donate> Donate = new ArrayList<>();
         try {
@@ -135,19 +161,7 @@ public class MasterDao extends DBconnect {
         }
         return addlist;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     
     public Register getCustomer(String email)
@@ -196,8 +210,7 @@ public class MasterDao extends DBconnect {
             ps.setString(5, r.getState());
             ps.setString(6,r.getEmail());
            int count= ps.executeUpdate();
-            //if(count!=0){
-             //   return "SUCCESS";}
+
             
         } catch (SQLException ex) {
             Logger.getLogger(MasterDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -205,8 +218,8 @@ public class MasterDao extends DBconnect {
      
     }
     
-    public int removeById(String email){
-        int count = 0;
+    public void removeById(String email) throws SQLException{
+        int i,j,k;
         try {
             
             
@@ -225,15 +238,47 @@ public class MasterDao extends DBconnect {
             ps2=con.prepareStatement(sql2);
             ps2.setString(1,email);        
             
-            count = ps.executeUpdate();
-            ps1.executeUpdate();
-            ps2.executeUpdate();
-            
+            i= ps.executeUpdate();
+            j=ps1.executeUpdate();
+            k=ps2.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(MasterDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        return count;
+        finally{
+            ps.close();
+            ps1.close();
+            ps2.close();
+            con.close();
+        }
     }
 
-}
+
+    
+    public int changePassword(Register r) 
+{       int count=0;
+String email= r.getEmail();
+        String password=r.getPassword();
+        try {
+            con = createConnection(); 
+            statement=con.createStatement();
+           ps=con.prepareStatement("Update public.customer set password='"+password+"' where email='"+email+"'");
+            int i= ps.executeUpdate();
+          
+          if (i != 0)
+          {//Just to ensure data has been inserted into the database
+         System.out.println("updated");
+         count=1;
+          }
+              /*  String yo = "UPDATE customer SET password = ? WHERE email=?";
+                ps = con.prepareStatement(yo);
+               ps.setString(1,c.getPassword());
+                ps.setString(2,c.getEmail());
+                count = ps.executeUpdate();*/
+        }    
+         catch (SQLException ex) {
+            Logger.getLogger(MasterDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    return count;
+    }
+} 
+  

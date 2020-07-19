@@ -1,40 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.MasterDao;
+import ejb.MailSenderBean;
 import model.Register;
 import model.RegisterDAO;
 
-/**
- *
- * @author apple
- */
+
 public class RegServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    @EJB
+    private MailSenderBean mailSender;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
             String fname = request.getParameter("fname");
             String lname = request.getParameter("lname");
             String email = request.getParameter("email");
@@ -42,12 +27,26 @@ public class RegServlet extends HttpServlet {
             String password = request.getParameter("password");
             String address = request.getParameter("address");
             String state= request.getParameter("state");
-            String city = request.getParameter("city");
+            String city = request.getParameter("city"); 
            
-
-
+            //mail
+    /*    String toEmail = request.getParameter("email");
+        String subject = "Registration Successful";
+        String message = "Dear User, "
+                + " \r\n"
+                + "Thankyou for registering to our site       "
+                + " \r\n"
+                + "http://localhost:8080/MyProject/Home.jsp";
+        
+       
+        String fromEmail = "1809Hazel@gmail.com";
+        String username = "1809Hazel@gmail.com";
+        String pass = "123Hazel";
+        
+            
+            mailSender.sendEmail(fromEmail, username, pass, toEmail, subject, message);*/
+try (PrintWriter out = response.getWriter()) {
 Register register = new Register();
-
 register.setFname(fname);
 register.setLname(lname);
 register.setEmail(email);
@@ -65,10 +64,8 @@ String userRegistered = registerDao.registerUser(register);
                 case "SUCCESS":
                    Register r= Register.populate(request, response);
                    request.setAttribute("Register", r);
-                    MasterDao mmd=new MasterDao();
-                     List<Register> Register = mmd.getAllCustomers();
-                     request.setAttribute("Register",Register);
-                     request.getRequestDispatcher("/Home.jsp").forward(request, response);
+                  // mailSender.sendEmail(fromEmail, username, pass, toEmail, subject, message);
+                   request.getRequestDispatcher("/Home.jsp").forward(request, response);
                     break;
                 case "You are already registered. Sign-in!":
                     request.setAttribute("errMessage", userRegistered);
@@ -80,9 +77,9 @@ String userRegistered = registerDao.registerUser(register);
                     request.getRequestDispatcher("/register.jsp").forward(request, response);
                     break;
             }
-        }
+        
     }
-
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -120,6 +117,5 @@ String userRegistered = registerDao.registerUser(register);
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
-
+    }// </editor-fold> 
 }

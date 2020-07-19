@@ -5,8 +5,10 @@
  */
 package controller;
 
+import ejb.MailSenderBean;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,18 +23,12 @@ import model.pur;
  */
 public class PurchaseServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    @EJB
+    private MailSenderBean mailSender;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
             /* TODO output your page here. You may use following sample code. */
@@ -40,7 +36,23 @@ public class PurchaseServlet extends HttpServlet {
             int new_points = Integer.parseInt(request.getParameter("points"));
             String email = (String) session.getAttribute("email");
             
-
+        String toEmail = (String)session.getAttribute("email");
+        String subject = "Gift Card";
+        String message = "Dear User, "
+                + " \r\n"
+                + "Thankyou for using our page."
+                + " \r\n"
+                +""
+                + Vname + "Your coupon code is: 12345";
+        
+       
+        String fromEmail = "1809Hazel@gmail.com";
+        String username = "1809Hazel@gmail.com";
+        String pass = "123Hazel";
+        
+            
+            mailSender.sendEmail(fromEmail, username, pass, toEmail, subject, message);
+            
             pur Pur = new pur();
             
             Pur.setVname(Vname);

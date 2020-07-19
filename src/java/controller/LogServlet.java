@@ -62,8 +62,8 @@ public class LogServlet extends HttpServlet {
         }
         else
         {  HttpSession session=request.getSession();//creating a session
-            Date lastaccess=new Date(session.getLastAccessedTime());  
-            session.setAttribute("lastaccess",lastaccess);
+           // Date lastaccess=new Date(session.getLastAccessedTime());  
+           // session.setAttribute("lastaccess",lastaccess);
             session.setAttribute("password",password);
             session.setAttribute("email", email);
             session.setAttribute("fname",userValidate); //with setAttribute() you can define a "key" and value pair so that you can get it in future using getAttribute("key")

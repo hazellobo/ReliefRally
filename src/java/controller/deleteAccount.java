@@ -3,7 +3,10 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,25 +20,21 @@ import model.Register;
 public class deleteAccount extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException{
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {            
             HttpSession session=request.getSession();
             String email=(String)session.getAttribute("email");
             MasterDao mmd = new MasterDao();
-            int count = mmd.removeById(email);
-            if (count == 1){
-                System.out.println("Sucesfully Deleted"); 
-                request.getRequestDispatcher("/homepage.jsp");
-            //RequestDispatcher view=request.getRequestDispatcher("/homepage.jsp");
-            //view.forward(request, response);
-            }
-            else{
-                System.out.println("Error in Deleting");
-            }           
-            
+            mmd.removeById(email);
+                System.out.println("Succesfully deleted");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("/homepage.jsp");
+                requestDispatcher.forward(request, response);
+            } catch (SQLException ex) {
+            Logger.getLogger(deleteAccount.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+        }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -49,7 +48,8 @@ public class deleteAccount extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+            processRequest(request, response);
+       
     }
 
     /**
@@ -63,7 +63,8 @@ public class deleteAccount extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+            processRequest(request, response);
+       
     }
 
     /**

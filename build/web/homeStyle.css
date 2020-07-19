@@ -1,0 +1,150 @@
+
+
+.row{
+    max-width: 1140px;
+    margin: 0 auto;
+        
+}
+body{
+    font-family: Helvetica;
+}
+.hello{
+    position: absolute;
+    width: 1140px;
+    top:30%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+header {
+    background-image:linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)), url(123.jpg);
+    height:100vh;
+    background-position:center;
+    background-size: cover;
+    background-color: antiquewhite;
+}
+h1{
+    color: wheat;
+}
+
+    
+
+.main-nav{
+    list-style: none;
+    float:right;
+    margin-top: 60px;
+}
+.main-nav li{
+    display: inline-block;
+    margin-left: 20px;
+}
+.main-nav li a{
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 100%;
+}
+.main-nav li a:hover{
+    color:darkorange;
+    border-bottom: 2px solid darkorange;
+    transition:all 0.5s ease-in;
+    padding: 15px 0;
+}
+
+        
+
+
+.logo img{
+    height: 100px;
+   margin-top: 1px;
+   
+}
+.btn{
+    border: 1px solid cornflowerblue;
+    padding: 10px 30px;
+    color: darkblue;
+    text-decoration: none;
+    border-radius: 12px;
+    margin-right: 50px;
+   alignment-adjust:  middle;
+    background-color: cornsilk;
+    
+    
+}
+.button-awesome{
+    margin-top: 50px;
+    
+}
+.btn-half:hover{
+    background-color: gainsboro;
+    transition: all 0.5s ease-in;
+   
+}
+.btn-full:hover{
+    background-color: gainsboro;
+    transition: all 0.5s ease-in;
+}
+.btn-hal:hover{
+    background-color: gainsboro;
+    transition: all 0.5s ease-in;
+}
+.copy{
+    widows:70%;
+    margin-left: 15%;
+    margin-bottom: 20px;
+    
+}
+
+h3:after{
+    width: 100px;
+    height: 2px;
+    background-color: blueviolet;
+    display: block;
+    content: "";
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+
+section{
+    background-color: #f1f1f1;
+}
+
+.features h3{
+    margin-top: 80px;
+    margin-bottom: 30px;
+    font-family: sans-serif;
+}
+
+.features h4{
+    margin-left: 40px;
+}
+.arranging{
+    text-align: justify;
+}
+
+.features i{
+    font-size: 40px;
+    color: background;
+    margin-left: 45%;
+}
+
+.features i :hover{
+     background-color: blanchedalmond;
+    transition: all 0.5s ease-in;
+}
+    
+
+.carousel-inner{
+    image-resolution: 10px;
+}
+
+.col-md-5 {
+    float: left;
+    width: 33.33%;
+    padding: 8px;
+}
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}

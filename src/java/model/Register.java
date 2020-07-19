@@ -15,6 +15,8 @@ public class Register {
     String state;
     String city;
     String points;
+
+
     
 
     
@@ -107,5 +109,7 @@ public class Register {
        // m.setPoints(request.getParameter("points"));
         return m;
     }
+
+   
    
 }
